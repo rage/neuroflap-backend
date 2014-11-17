@@ -1,5 +1,6 @@
 <?php
 
+require 'cors.php';
 require 'config.php';
 
 try {
