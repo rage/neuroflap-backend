@@ -4,7 +4,7 @@ require 'cors.php';
 require 'config.php';
 
 $data = json_decode(file_get_contents('php://input'), true);
-if (empty($data['entries']) || empty($data['studentNumber'])) {
+if (empty($data['entries']) || empty($data['studentNumber']) || empty($data['flying']) || empty($data['reactions'])) {
     header('HTTP/1.1 400 Bad Request');
     exit('hv');
 }
@@ -20,8 +20,8 @@ $conn->beginTransaction();
 
 // insert session
 
-$stmt = $conn->prepare('INSERT INTO session (ipAddress, studentNumber) VALUES (:ipAddress, :studentNumber) RETURNING id');
-$stmt->execute(array(':ipAddress' => $_SERVER['REMOTE_ADDR'], ':studentNumber' => $data['studentNumber']));
+$stmt = $conn->prepare('INSERT INTO session (ipAddress, studentNumber, flyingScore, reactionScore) VALUES (:ipAddress, :studentNumber, :flyingScore, :reactionScore) RETURNING id');
+$stmt->execute(array(':ipAddress' => $_SERVER['REMOTE_ADDR'], ':studentNumber' => $data['studentNumber'], ':flyingScore' => $data['flying'], ':reactionScore' => $data['reactions']));
 $session_id = $stmt->fetchColumn();
 
 // insert log entries to session
