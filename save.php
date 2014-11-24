@@ -3,8 +3,12 @@
 require 'cors.php';
 require 'config.php';
 
+function is_number($num) {
+    return is_int($num) || is_float($num);
+}
+
 $data = json_decode(file_get_contents('php://input'), true);
-if (empty($data['entries']) || empty($data['studentNumber']) || empty($data['flying']) || empty($data['reactions'])) {
+if (empty($data['entries']) || empty($data['studentNumber']) || !is_number($data['flying']) || !is_number($data['reactions'])) {
     header('HTTP/1.1 400 Bad Request');
     exit('hv');
 }
