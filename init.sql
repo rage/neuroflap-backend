@@ -4,7 +4,8 @@ CREATE TABLE session (
 	studentNumber varchar(255) not null,
 	added timestamp not null default now(),
     flyingScore double precision not null,
-    reactionScore double precision not null
+    reactionScore double precision not null,
+    actualSession boolean not null
 );
 
 CREATE TABLE entry (
